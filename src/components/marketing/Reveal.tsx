@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
+type RevealTag = "div" | "li" | "figure" | "h2" | "h3" | "p" | "span";
+
 interface RevealProps {
-  as?: "div" | "li" | "figure";
+  as?: RevealTag;
   className?: string;
   delay?: number;
   children: ReactNode;
@@ -48,24 +50,22 @@ export function Reveal({ as = "div", className, delay = 0, children }: RevealPro
     .filter(Boolean)
     .join(" ");
   const style = delay ? { transitionDelay: `${delay}s` } : undefined;
+  const shared = { ref: setRef, className: cls, "data-reveal": "", style };
 
-  if (as === "li") {
-    return (
-      <li ref={setRef} className={cls} data-reveal="" style={style}>
-        {children}
-      </li>
-    );
+  switch (as) {
+    case "li":
+      return <li {...shared}>{children}</li>;
+    case "figure":
+      return <figure {...shared}>{children}</figure>;
+    case "h2":
+      return <h2 {...shared}>{children}</h2>;
+    case "h3":
+      return <h3 {...shared}>{children}</h3>;
+    case "p":
+      return <p {...shared}>{children}</p>;
+    case "span":
+      return <span {...shared}>{children}</span>;
+    default:
+      return <div {...shared}>{children}</div>;
   }
-  if (as === "figure") {
-    return (
-      <figure ref={setRef} className={cls} data-reveal="" style={style}>
-        {children}
-      </figure>
-    );
-  }
-  return (
-    <div ref={setRef} className={cls} data-reveal="" style={style}>
-      {children}
-    </div>
-  );
 }

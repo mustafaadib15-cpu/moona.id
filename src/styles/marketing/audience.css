@@ -1,0 +1,117 @@
+/* audience.css — the inquiry form and the post-submit "received" page.
+   Consolidated from the Astro component-scoped styles. */
+
+/* ----------------------------------------------------------- audience */
+.audience {
+  padding-block-start: calc(var(--section-py) + 72px);
+}
+.audience__inner {
+  max-width: 640px;
+}
+.audience__title {
+  margin-bottom: var(--space-3);
+}
+.audience__intro {
+  max-width: 540px;
+  color: var(--lunar-dim);
+  margin-bottom: var(--space-6);
+}
+
+/* --------------------------------------------------------------- form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.form__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.form__label {
+  display: flex;
+  gap: var(--space-2);
+  align-items: baseline;
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-overline);
+  text-transform: uppercase;
+  color: var(--lunar-dim);
+}
+.form__optional {
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--lunar-dim);
+}
+.form__input {
+  padding: 0.85em 1em;
+  background: var(--kohl-surface);
+  border: 1px solid var(--smoke);
+  color: var(--lunar-bright);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  transition: border-color var(--dur-fast) var(--ease);
+}
+.form__input::placeholder {
+  color: var(--smoke-light);
+}
+.form__input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+.form__textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+.form__fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.form__radios {
+  display: flex;
+  gap: var(--space-4);
+}
+.form__radio {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--lunar);
+  cursor: pointer;
+}
+.form__radio input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent-blue);
+}
+.form__submit {
+  align-self: flex-start;
+  margin-top: var(--space-2);
+}
+.form__submit[disabled] {
+  opacity: 0.55;
+  cursor: progress;
+}
+.form__error {
+  color: #e8b5a8;
+  font-size: var(--fs-caption);
+  margin: 0;
+}
+
+/* ----------------------------------------------------------- received */
+.received {
+  min-height: 72vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding-block-start: calc(var(--section-py) + 72px);
+}
+.received__inner {
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+.received__body {
+  color: var(--lunar-dim);
+}

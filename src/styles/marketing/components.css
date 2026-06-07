@@ -41,20 +41,24 @@
 }
 
 /* ---------------------------------------------------------------- skip */
+/* Hidden via transform (not a huge offset) so it never creates scrollable
+   overflow — a -9999px offset broke paint on the LTR /en routes inside the
+   RTL document. */
 .skip-link {
   position: absolute;
-  inset-inline-start: -9999px;
-  inset-block-start: 0;
+  inset-block-start: var(--space-2);
+  inset-inline-start: var(--space-2);
   z-index: var(--z-overlay);
   padding: var(--space-2) var(--space-3);
   background: var(--kohl-surface);
   color: var(--lunar-bright);
   border: var(--border-hair);
+  transform: translateY(calc(-100% - var(--space-3)));
+  transition: transform var(--dur-fast) var(--ease);
 }
 
 .skip-link:focus {
-  inset-inline-start: var(--space-2);
-  inset-block-start: var(--space-2);
+  transform: translateY(0);
 }
 
 /* ----------------------------------------------------------------- nav */

@@ -97,6 +97,20 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0;
 }
 
+/* The document defaults to lang="ar"; EN subtrees (the /en marketing routes)
+   must restore the Latin fonts and tracking, so they cannot inherit the AR
+   overrides above. */
+[lang='en'] {
+  --font-display: var(--font-display-en);
+  --font-body: var(--font-body-en);
+  --lh-body: 1.7;
+  --ls-display: -0.01em;
+  --ls-tight: -0.02em;
+  --ls-caption: 0.15em;
+  --ls-overline: 0.2em;
+  letter-spacing: normal;
+}
+
 /* No true italic exists for Amiri / Tajawal. Never skew Arabic. */
 [lang='ar'],
 [lang='ar'] * {

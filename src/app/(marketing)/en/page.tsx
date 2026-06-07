@@ -3,15 +3,15 @@ import { t } from "@/lib/marketing/i18n";
 import { marketingMetadata } from "@/lib/marketing/seo";
 import { HomeView } from "@/components/marketing/views/HomeView";
 
-const locale = "ar" as const;
+const locale = "en" as const;
 
 export const metadata: Metadata = marketingMetadata({
   locale,
-  path: "/",
+  path: "/en/",
   title: t(locale, "meta.title"),
   description: t(locale, "meta.description"),
 });
 
-export default function HomePage() {
+export default function HomePageEn() {
   return <HomeView locale={locale} />;
 }
