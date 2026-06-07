@@ -1,0 +1,367 @@
+/* components.css — shared component styles: buttons, nav, langswitch,
+   footer, reveal, skip link. Depends on tokens.css + global.css. */
+
+/* ------------------------------------------------------------- buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  font-family: var(--font-body);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+  color: var(--lunar-bright);
+  padding: 0.85em 1.6em;
+  border: 1px solid var(--smoke-light);
+  background: transparent;
+  white-space: nowrap;
+  transition:
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease);
+}
+
+.btn:hover {
+  border-color: var(--accent-blue);
+  color: var(--soft-white);
+}
+
+.btn--solid {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: var(--kohl-deep); /* dark text on accent fill -> AA contrast (5.6:1) */
+  font-weight: var(--fw-semibold);
+}
+
+.btn--solid:hover {
+  background: transparent;
+  color: var(--accent-blue);
+}
+
+/* ---------------------------------------------------------------- skip */
+.skip-link {
+  position: absolute;
+  inset-inline-start: -9999px;
+  inset-block-start: 0;
+  z-index: var(--z-overlay);
+  padding: var(--space-2) var(--space-3);
+  background: var(--kohl-surface);
+  color: var(--lunar-bright);
+  border: var(--border-hair);
+}
+
+.skip-link:focus {
+  inset-inline-start: var(--space-2);
+  inset-block-start: var(--space-2);
+}
+
+/* ----------------------------------------------------------------- nav */
+.nav {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: var(--z-nav);
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease);
+}
+
+.nav.is-scrolled {
+  background-color: rgba(10, 27, 77, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: var(--smoke);
+}
+
+.nav__inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-3);
+  height: 72px;
+}
+
+.nav__brand {
+  justify-self: start;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: var(--fw-regular);
+  letter-spacing: var(--ls-display);
+  color: var(--lunar-bright);
+}
+
+.nav__brand--logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav__logo {
+  height: 22px;
+  width: auto;
+  display: block;
+}
+
+.nav__links {
+  justify-self: center;
+  display: flex;
+  gap: var(--space-4);
+}
+
+.nav__links a {
+  color: var(--lunar);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+}
+
+.nav__links a:hover {
+  color: var(--soft-white);
+}
+
+.nav__actions {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Link into the client portal (AR header shows بوابة العملاء). */
+.nav__portal {
+  color: var(--lunar);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.nav__portal:hover {
+  color: var(--soft-white);
+}
+
+/* hamburger */
+.nav__toggle {
+  display: none;
+  width: 26px;
+  height: 16px;
+  position: relative;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nav__toggle span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--lunar-bright);
+  transition: transform var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
+}
+
+.nav.is-open .nav__toggle span:first-child {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav.is-open .nav__toggle span:last-child {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* mobile overlay menu */
+.nav__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+  background: var(--kohl-deep);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur-fast) var(--ease), visibility var(--dur-fast) var(--ease);
+}
+
+.nav.is-open .nav__overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav__overlay-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.nav__overlay-links a {
+  color: var(--lunar-bright);
+  font-family: var(--font-display);
+  font-size: 2rem;
+}
+
+.nav__overlay-links .btn {
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);
+  margin-top: var(--space-2);
+}
+
+/* --------------------------------------------------------- lang switch */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+}
+
+.lang-switch__opt {
+  padding-inline: 0.55em;
+  color: var(--lunar-dim);
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.lang-switch__opt:first-child {
+  padding-inline-start: 0;
+}
+
+.lang-switch__opt + .lang-switch__opt {
+  border-inline-start: 1px solid var(--smoke-light);
+}
+
+.lang-switch__opt:hover {
+  color: var(--lunar-bright);
+}
+
+.lang-switch__opt.is-active {
+  color: var(--soft-white);
+}
+
+/* -------------------------------------------------------------- footer */
+.footer {
+  border-top: 1px solid var(--smoke);
+  background: var(--kohl-deep);
+}
+
+.footer__inner {
+  padding-block: var(--space-6);
+}
+
+.footer__cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: start;
+}
+
+.footer__col a,
+.footer__col span {
+  color: var(--lunar-dim);
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.footer__col a:hover {
+  color: var(--lunar-bright);
+}
+
+.footer__col--brand .footer__brand {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--lunar-bright);
+}
+
+.footer__logo-link {
+  display: inline-block;
+}
+
+.footer__logo {
+  width: 200px;
+  height: auto;
+}
+
+.footer__rule {
+  margin-block: var(--space-4);
+}
+
+.footer__base {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* -------------------------------------------------------------- reveal */
+.reveal[data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--reveal-shift));
+  transition:
+    opacity var(--dur-reveal) var(--ease),
+    transform var(--dur-reveal) var(--ease);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ----------------------------------------------------- pattern texture */
+/* Moon-phase crescent texture at low opacity. Swap the url for the
+   provided pattern_1.png / pattern_2.png if preferred. */
+.has-pattern {
+  position: relative;
+}
+
+.has-pattern::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/pattern_1.png');
+  background-repeat: repeat;
+  background-size: 400px;
+  opacity: var(--pattern-opacity);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.has-pattern > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* --------------------------------------------------------- responsive */
+@media (max-width: 860px) {
+  .nav__inner {
+    grid-template-columns: 1fr auto;
+  }
+  .nav__links,
+  .nav__cta,
+  .nav__lang,
+  .nav__actions .nav__portal {
+    display: none;
+  }
+  .nav__toggle {
+    display: flex;
+  }
+}
+
+@media (min-width: 861px) {
+  .nav__overlay {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer__cols {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+}

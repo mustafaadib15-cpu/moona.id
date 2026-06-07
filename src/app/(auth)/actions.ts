@@ -30,6 +30,7 @@ export async function signIn(values: LoginInput): Promise<SignInResult | void> {
     return { error: "البريد الإلكتروني أو كلمة المرور غير صحيحة." };
   }
 
-  // Role-based routing is wired in Phase 1; root resolves the destination.
-  redirect("/");
+  // Role-based routing is finalized in Phase 1 (admin -> /admin, client ->
+  // /dashboard). Default to the client area for now.
+  redirect("/dashboard");
 }

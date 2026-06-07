@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Amiri, Tajawal, Cormorant_Garamond, Outfit } from "next/font/google";
-import "./globals.css";
 
 // Arabic display: titles, hooks, subjects.
 const amiri = Amiri({
@@ -18,11 +17,11 @@ const tajawal = Tajawal({
   display: "swap",
 });
 
-// Latin display: big numerals (post numbers, counters).
+// Latin display: marketing display type, portal numerals.
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600"],
   display: "swap",
 });
 
@@ -35,10 +34,13 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Moona · بوابة العملاء",
-  description: "بوابة عملاء منى. مراجعة المحتوى واعتماده ومتابعة المخرجات.",
+  title: "Moona",
+  description: "Moona, refined presence.",
 };
 
+// Thin document shell shared by the whole site (marketing + portal). Each
+// route group imports its own design system; the default direction is
+// Arabic RTL. EN marketing routes override dir/lang on their own wrapper.
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -50,10 +52,7 @@ export default function RootLayout({
       dir="rtl"
       className={`${amiri.variable} ${tajawal.variable} ${cormorant.variable} ${outfit.variable}`}
     >
-      <body>
-        <div className="tex" aria-hidden="true" />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

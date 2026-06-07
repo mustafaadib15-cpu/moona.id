@@ -9,7 +9,8 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Run on every path except Next internals and static assets.
-    "/((?!_next/static|_next/image|favicon.ico|images/).*)",
+    // Run on every path except Next internals and static asset files, so the
+    // session refresh only touches real routes (marketing + portal).
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt)$).*)",
   ],
 };

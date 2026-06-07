@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // The portal is served under moona.id/portal. basePath keeps every route and
-  // public asset self-contained under that path.
-  basePath: "/portal",
+  // One Vercel project for all of moona.id: marketing at /, portal login at
+  // /portal, client area at /dashboard, admin at /admin. No basePath.
 };
 
 export default nextConfig;

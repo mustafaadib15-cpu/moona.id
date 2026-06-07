@@ -1,0 +1,88 @@
+/* tokens.css — design tokens for Moona. Custom properties only.
+   Letter-spacing and line-height are routed through variables so the
+   Arabic locale ([lang="ar"] in global.css) can zero/adjust them globally. */
+
+:root {
+  /* ---- Color: kohl (background) ---- */
+  --kohl:           #0A1B4D; /* main background */
+  --kohl-deep:      #060F2B; /* deepest sections: hero, CTA */
+  --kohl-surface:   #0E2359; /* cards, elevated surfaces */
+
+  /* ---- Color: lunar (text on dark) ---- */
+  --lunar:          #C5CEE0; /* primary body text */
+  --lunar-bright:   #E8ECF4; /* headlines, emphasis */
+  --lunar-dim:      #8A96B2; /* secondary text, captions */
+
+  /* ---- Color: white / smoke / accent ---- */
+  --soft-white:     #F0F2F7; /* pure emphasis, nav active */
+  --smoke:          #3A4563; /* borders, dividers */
+  --smoke-light:    #5A6680; /* inactive states */
+  --accent-blue:    #3795C7; /* CTAs, links, section numbers (lightened from #2E8BC0 for AA contrast on kohl) */
+
+  /* ---- Font families (wired to next/font CSS variables) ---- */
+  --font-display-en: var(--font-cormorant), Georgia, 'Times New Roman', serif;
+  --font-body-en:    var(--font-outfit), system-ui, -apple-system, sans-serif;
+  --font-display-ar: var(--font-amiri), var(--font-cormorant), serif;
+  --font-body-ar:    var(--font-tajawal), system-ui, sans-serif;
+
+  /* Semantic font tokens (overridden for [lang="ar"] in global.css) */
+  --font-display: var(--font-display-en);
+  --font-body:    var(--font-body-en);
+
+  /* ---- Font weights ---- */
+  --fw-light:    300;
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+
+  /* ---- Fluid type scale (mobile min -> desktop max) ----
+     hero    ~40 -> 96px   section ~32 -> 56px   heading ~24 -> 36px */
+  --fs-display-hero:    clamp(2.5rem, 1.1rem + 6vw, 6rem);
+  --fs-display-section: clamp(2rem, 1.35rem + 2.9vw, 3.5rem);
+  --fs-heading:         clamp(1.5rem, 1.25rem + 1.1vw, 2.25rem);
+  --fs-body-lg:         1.25rem;   /* 20px */
+  --fs-body:            1rem;      /* 16px */
+  --fs-caption:         0.8125rem; /* 13px */
+  --fs-overline:        0.6875rem; /* 11px */
+
+  /* ---- Line heights (--lh-body raised to 1.9 for Arabic) ---- */
+  --lh-display: 1.08;
+  --lh-heading: 1.25;
+  --lh-body:    1.7;
+
+  /* ---- Letter spacing (all zeroed for Arabic) ---- */
+  --ls-display:  -0.01em;
+  --ls-tight:    -0.02em;
+  --ls-caption:  0.15em;
+  --ls-overline: 0.2em;
+
+  /* ---- Spacing: 8px base ---- */
+  --space-1: 0.5rem;  /* 8  */
+  --space-2: 1rem;    /* 16 */
+  --space-3: 1.5rem;  /* 24 */
+  --space-4: 2rem;    /* 32 */
+  --space-5: 3rem;    /* 48 */
+  --space-6: 4rem;    /* 64 */
+  --space-7: 5rem;    /* 80 */
+  --space-8: 7.5rem;  /* 120 */
+
+  /* ---- Layout ---- */
+  --content-max: 1120px;
+  --content-pad: clamp(1.25rem, 0.5rem + 3vw, 2.5rem);
+  --section-py:  clamp(5rem, 3rem + 8vw, 7.5rem); /* 80 -> 120 */
+
+  /* ---- Lines, surfaces, depth ---- */
+  --border-hair: 1px solid var(--smoke);
+  --shadow-max:  0 1px 3px rgba(0, 0, 0, 0.2); /* heaviest shadow allowed */
+  --pattern-opacity: 0.04;
+
+  /* ---- Motion ---- */
+  --ease:         cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast:     0.3s;
+  --dur-reveal:   0.6s;
+  --reveal-shift: 30px;
+
+  /* ---- Z-index ---- */
+  --z-nav:     100;
+  --z-overlay: 200;
+}

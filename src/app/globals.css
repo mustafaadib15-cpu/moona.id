@@ -37,7 +37,7 @@ body {
   background-color: var(--color-kohl);
   background-image:
     radial-gradient(135% 100% at 50% 0%, rgba(7, 8, 12, 0) 42%, rgba(6, 7, 12, 0.6) 100%),
-    url("/portal/images/starfield.png");
+    url("/images/starfield.png");
   background-size: cover, cover;
   background-position: center top, center center;
   background-repeat: no-repeat, no-repeat;
