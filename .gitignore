@@ -45,3 +45,4 @@ dev.log
 _*.py
 _*.png
 _*.mjs
+supabase/.temp/
