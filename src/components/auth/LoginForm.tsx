@@ -22,9 +22,13 @@ export function LoginForm() {
     setServerError("");
     startTransition(async () => {
       const result = await signIn(values);
-      if (result?.error) {
+      if ("error" in result) {
         setServerError(result.error);
+        return;
       }
+      // Full-page navigation so the freshly-set auth cookies are in place for
+      // the protected route (a soft push can race the cookie commit).
+      window.location.assign(result.redirectTo);
     });
   };
 

@@ -5,14 +5,14 @@ import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { loginSchema, type LoginInput } from "@/lib/validation/auth";
 
-export type SignInResult = { error: string };
+export type SignInResult = { error: string } | { redirectTo: string };
 
 // Destination for a role after a successful sign-in.
 function homeForRole(role: string | null | undefined): string {
   return role === "admin" ? "/admin" : "/dashboard";
 }
 
-export async function signIn(values: LoginInput): Promise<SignInResult | void> {
+export async function signIn(values: LoginInput): Promise<SignInResult> {
   // Never trust the client: re-validate on the server.
   const parsed = loginSchema.safeParse(values);
   if (!parsed.success) {
@@ -41,7 +41,10 @@ export async function signIn(values: LoginInput): Promise<SignInResult | void> {
     .eq("id", data.user.id)
     .single();
 
-  redirect(homeForRole((profile as { role?: string } | null)?.role));
+  // Cookies are set on this action's response; the client navigates so the
+  // redirect happens reliably (an imperatively-called redirect() can be
+  // swallowed by the action dispatcher).
+  return { redirectTo: homeForRole((profile as { role?: string } | null)?.role) };
 }
 
 export async function signOut(): Promise<void> {
