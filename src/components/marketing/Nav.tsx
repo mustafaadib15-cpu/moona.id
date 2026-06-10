@@ -23,7 +23,8 @@ export function Nav({ locale }: NavProps) {
     { href: `${base}/about`, label: t(locale, "nav.about") },
     { href: `${base}/audience`, label: t(locale, "nav.contact") },
   ];
-  const portalLabel = locale === "en" ? "Client Portal" : "بوابة العملاء";
+  // Clear, brand-recognizable link into the sign-in (same label both locales).
+  const portalLabel = "Moona Portal";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
@@ -76,7 +77,7 @@ export function Nav({ locale }: NavProps) {
         </nav>
 
         <div className="nav__actions">
-          <a className="nav__portal" href="/portal">
+          <a className="nav__portal" href="/portal" lang="en">
             {portalLabel}
           </a>
           <LangSwitch locale={locale} className="nav__lang" />
@@ -104,7 +105,7 @@ export function Nav({ locale }: NavProps) {
               {l.label}
             </a>
           ))}
-          <a className="nav__portal" href="/portal" onClick={() => setOpen(false)}>
+          <a className="nav__portal" href="/portal" lang="en" onClick={() => setOpen(false)}>
             {portalLabel}
           </a>
           <a
