@@ -1,0 +1,117 @@
+/* admin.css — small additions for the admin dashboard. Loaded after the portal
+   globals.css, so the --color-* tokens are available. */
+
+.adm-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+.adm-bar .adm-bar__spacer {
+  margin-inline-start: auto;
+}
+
+/* sub-navigation tabs within a client */
+.adm-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 18px 0 28px;
+  border-bottom: 1px solid var(--color-line);
+  padding-bottom: 14px;
+}
+.adm-tabs a {
+  font-size: 13px;
+  color: var(--color-muted);
+  border: 1px solid var(--color-line);
+  padding: 7px 14px;
+  transition: 0.2s;
+}
+.adm-tabs a:hover {
+  color: var(--color-fg);
+  border-color: rgba(215, 230, 242, 0.35);
+}
+.adm-tabs a.active {
+  color: #0a1330;
+  background: var(--color-silver);
+  border-color: var(--color-silver);
+}
+
+/* forms */
+select.inp {
+  appearance: none;
+  cursor: pointer;
+}
+.ok-msg {
+  color: var(--color-ice);
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+.adm-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 18px;
+}
+@media (max-width: 640px) {
+  .adm-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.adm-form-grid .full {
+  grid-column: 1 / -1;
+}
+
+/* compact inline add-row forms (groups / posts / deliverables) */
+.adm-add {
+  border: 1px dashed var(--color-line);
+  padding: 20px 22px;
+  margin-bottom: 18px;
+}
+.adm-add h4 {
+  font-family: var(--font-ar-display);
+  font-size: 16px;
+  color: #eef3fb;
+  margin-bottom: 14px;
+}
+
+/* feedback rows */
+.fb-post {
+  border: 1px solid var(--color-line);
+  background: rgba(10, 14, 28, 0.5);
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.fb-post__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.fb-post__seq {
+  font-family: var(--font-latin-display);
+  font-variant-numeric: lining-nums;
+  font-size: 20px;
+  color: var(--color-silver);
+}
+.fb-post__subject {
+  font-family: var(--font-ar-display);
+  font-size: 15px;
+  color: #f0f5fc;
+  flex: 1;
+  min-width: 0;
+}
+.fb-comment {
+  font-size: 13.5px;
+  color: var(--color-fg);
+  padding: 8px 0;
+  border-top: 1px solid var(--color-line-2);
+}
+.fb-comment .who {
+  color: var(--color-silver);
+  font-size: 11px;
+  font-family: var(--font-latin);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-inline-end: 8px;
+}

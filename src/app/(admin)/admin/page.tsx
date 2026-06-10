@@ -1,38 +1,60 @@
-import { signOut } from "@/app/(auth)/actions";
-import { getCurrentProfile } from "@/lib/supabase/profile";
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import { AccountForm } from "@/components/admin/AccountForm";
 
-// Phase 1: a minimal authenticated landing proving admin auth + role routing.
-// Phase 4 replaces this with the full admin dashboard (clients, plan builder,
-// deliverables manager, feedback view).
-export default async function AdminPage() {
-  const profile = await getCurrentProfile();
-  const name = profile?.full_name ?? profile?.email ?? "";
+const STATUS_LABEL: Record<string, string> = {
+  active: "نشط",
+  paused: "متوقف",
+  completed: "مكتمل",
+};
+const STATUS_CLASS: Record<string, string> = {
+  active: "done",
+  paused: "soon",
+  completed: "review",
+};
+
+export default async function AdminClientsPage() {
+  const supabase = await createClient();
+  const { data: clients } = await supabase
+    .from("client_accounts")
+    .select("id, name, company, status")
+    .order("created_at");
 
   return (
-    <section className="login">
-      <div className="login-card">
-        <div className="login-kicker">Admin</div>
-        <h1 className="login-title">لوحة الإدارة</h1>
-        <div className="kv">
-          <span className="k">المسؤول</span>
-          <span className="v">{name}</span>
+    <div className="view">
+      <div className="page-kicker">الإدارة</div>
+      <h1 className="page-title">العملاء</h1>
+      <p className="page-sub">إدارة حسابات العملاء، الخطط، المخرجات، والملاحظات.</p>
+
+      {!clients || clients.length === 0 ? (
+        <div className="empty">لا يوجد عملاء بعد. أضف أول عميل بالأسفل.</div>
+      ) : (
+        <div className="deliv">
+          {clients.map((c) => (
+            <div className="ditem" key={c.id}>
+              <div>
+                <div className="dt">{c.name}</div>
+                {c.company ? <div className="dd">{c.company}</div> : null}
+              </div>
+              <div className="dmeta">
+                <span className={`chipx ${STATUS_CLASS[c.status] ?? ""}`}>
+                  {STATUS_LABEL[c.status] ?? c.status}
+                </span>
+                <Link className="dview" href={`/admin/clients/${c.id}`}>
+                  إدارة
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="kv">
-          <span className="k">البريد</span>
-          <span className="v" dir="ltr">
-            {profile?.email}
-          </span>
-        </div>
-        <div className="kv">
-          <span className="k">الدور</span>
-          <span className="v">مدير</span>
-        </div>
-        <form action={signOut} className="mt-6">
-          <button className="btn full" type="submit">
-            تسجيل الخروج
-          </button>
-        </form>
+      )}
+
+      <div className="divider" />
+
+      <div className="panel">
+        <h3>إضافة عميل جديد</h3>
+        <AccountForm mode="create" />
       </div>
-    </section>
+    </div>
   );
 }

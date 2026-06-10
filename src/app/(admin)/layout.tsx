@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import "@/app/globals.css";
+import "@/styles/admin.css";
 import { getCurrentProfile } from "@/lib/supabase/profile";
+import { AdminShell } from "@/components/portal/AdminShell";
 
 export const metadata: Metadata = {
   title: "Moona · لوحة الإدارة",
@@ -16,10 +18,12 @@ export default async function AdminLayout({
   if (!profile) redirect("/portal");
   if (profile.role !== "admin") redirect("/dashboard");
 
+  const adminName = profile.full_name ?? profile.email;
+
   return (
     <>
       <div className="tex" aria-hidden="true" />
-      {children}
+      <AdminShell adminName={adminName}>{children}</AdminShell>
     </>
   );
 }
