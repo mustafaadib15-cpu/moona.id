@@ -56,6 +56,58 @@ button {
   display: none !important;
 }
 
+/* Accessibility: visible focus ring for keyboard users. */
+:focus-visible {
+  outline: 2px solid var(--color-ice);
+  outline-offset: 2px;
+}
+::selection {
+  background: var(--color-silver);
+  color: #0a1330;
+}
+
+/* Loading skeletons (shimmer placeholders). */
+.sk {
+  position: relative;
+  overflow: hidden;
+  background: rgba(215, 230, 242, 0.05);
+  border: 1px solid var(--color-line);
+}
+.sk::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(215, 230, 242, 0.07),
+    transparent
+  );
+  animation: sk-shimmer 1.4s infinite;
+}
+.sk-line {
+  height: 14px;
+  margin-bottom: 12px;
+}
+.sk-stat {
+  height: 118px;
+}
+.sk-card {
+  height: 64px;
+  margin-bottom: 14px;
+}
+@keyframes sk-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sk::after {
+    animation: none;
+  }
+}
+
 /* Fixed vignette over the starfield, for readability. */
 .tex {
   position: fixed;

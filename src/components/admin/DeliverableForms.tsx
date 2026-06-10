@@ -41,15 +41,15 @@ export function AddDeliverableForm({ clientId }: { clientId: string }) {
         <div className="adm-form-grid">
           <div className="full">
             <label className="fld">العنوان</label>
-            <input className="inp" name="title" required />
+            <input className="inp" name="title" aria-label="العنوان" required />
           </div>
           <div className="full">
             <label className="fld">الوصف</label>
-            <input className="inp" name="description" />
+            <input className="inp" name="description" aria-label="الوصف" />
           </div>
           <div>
             <label className="fld">الحالة</label>
-            <select className="inp" name="status" defaultValue="upcoming">
+            <select className="inp" name="status" defaultValue="upcoming" aria-label="الحالة">
               {STATUS.map(([v, l]) => (
                 <option key={v} value={v}>
                   {l}
@@ -59,15 +59,15 @@ export function AddDeliverableForm({ clientId }: { clientId: string }) {
           </div>
           <div>
             <label className="fld">التاريخ</label>
-            <input className="inp" name="date_label" placeholder="مايو 2026" />
+            <input className="inp" name="date_label" aria-label="التاريخ" placeholder="مايو 2026" />
           </div>
           <div>
             <label className="fld">الترتيب</label>
-            <input className="inp" name="sort_order" type="number" defaultValue={0} />
+            <input className="inp" name="sort_order" type="number" aria-label="الترتيب" defaultValue={0} />
           </div>
           <div>
             <label className="fld">ملف (اختياري)</label>
-            <input className="inp" name="file" type="file" />
+            <input className="inp" name="file" type="file" aria-label="ملف" />
           </div>
         </div>
         {error ? <div className="err">{error}</div> : null}

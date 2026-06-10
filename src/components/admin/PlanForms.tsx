@@ -64,22 +64,22 @@ export function AddGroupForm({ planId, clientId }: { planId: number; clientId: s
         <div className="adm-form-grid">
           <div>
             <label className="fld">الاسم</label>
-            <input className="inp" name="name" placeholder="الأسبوع الأول" required />
+            <input className="inp" name="name" aria-label="اسم المجموعة" placeholder="الأسبوع الأول" required />
           </div>
           <div>
             <label className="fld">النوع</label>
-            <select className="inp" name="kind" defaultValue="week">
+            <select className="inp" name="kind" defaultValue="week" aria-label="نوع المجموعة">
               <option value="week">أسبوع</option>
               <option value="series">سلسلة</option>
             </select>
           </div>
           <div>
             <label className="fld">المدى</label>
-            <input className="inp" name="range_label" placeholder="من 1 يونيو إلى 6 يونيو" />
+            <input className="inp" name="range_label" aria-label="المدى" placeholder="من 1 يونيو إلى 6 يونيو" />
           </div>
           <div>
             <label className="fld">الترتيب</label>
-            <input className="inp" name="sort_order" type="number" defaultValue={0} />
+            <input className="inp" name="sort_order" type="number" aria-label="الترتيب" defaultValue={0} />
           </div>
         </div>
         {error ? <div className="err">{error}</div> : null}
@@ -108,43 +108,43 @@ export function AddPostForm({
         <div className="adm-form-grid">
           <div>
             <label className="fld">الرقم (seq)</label>
-            <input className="inp" name="seq" type="number" defaultValue={0} />
+            <input className="inp" name="seq" type="number" aria-label="الرقم" defaultValue={0} />
           </div>
           <div>
             <label className="fld">اليوم</label>
-            <input className="inp" name="day_label" placeholder="الإثنين" />
+            <input className="inp" name="day_label" aria-label="اليوم" placeholder="الإثنين" />
           </div>
           <div>
             <label className="fld">التاريخ</label>
-            <input className="inp" name="post_date" placeholder="1 - 6 - 2026" />
+            <input className="inp" name="post_date" aria-label="التاريخ" placeholder="1 - 6 - 2026" />
           </div>
           <div>
             <label className="fld">الجزء (للسلسلة)</label>
-            <input className="inp" name="part_label" placeholder="الجزء الأول" />
+            <input className="inp" name="part_label" aria-label="الجزء" placeholder="الجزء الأول" />
           </div>
           <div className="full">
             <label className="fld">الموضوع</label>
-            <input className="inp" name="subject" required />
+            <input className="inp" name="subject" aria-label="الموضوع" required />
           </div>
           <div>
             <label className="fld">لماذا الآن</label>
-            <input className="inp" name="why_now" />
+            <input className="inp" name="why_now" aria-label="لماذا الآن" />
           </div>
           <div>
             <label className="fld">الشكل</label>
-            <input className="inp" name="content_form" />
+            <input className="inp" name="content_form" aria-label="الشكل" />
           </div>
           <div className="full">
             <label className="fld">الخطّاف</label>
-            <input className="inp" name="hook" required />
+            <input className="inp" name="hook" aria-label="الخطّاف" required />
           </div>
           <div className="full">
             <label className="fld">نص المنشور (كل سطر فقرة)</label>
-            <textarea className="inp" name="body" rows={6} />
+            <textarea className="inp" name="body" rows={6} aria-label="نص المنشور" />
           </div>
           <div className="full">
             <label className="fld">الوسوم</label>
-            <input className="inp" name="tags" />
+            <input className="inp" name="tags" aria-label="الوسوم" />
           </div>
         </div>
         {error ? <div className="err">{error}</div> : null}

@@ -259,6 +259,7 @@ export function ApprovalsView({
                     <textarea
                       className="cmt"
                       rows={2}
+                      aria-label={`ملاحظة على: ${po.subject}`}
                       placeholder="اكتب ملاحظتك أو موافقتك هنا"
                       value={comments[po.id] ?? ""}
                       onChange={(e) =>
