@@ -7,7 +7,7 @@ Vercel project on `moona.id`.
 The repo is local-only. Create a GitHub repo and push:
 ```
 git remote add origin https://github.com/<you>/moona-portal.git
-git push -u origin master
+git push -u origin main
 ```
 `.env.local` is git-ignored, so the keys are never pushed.
 
