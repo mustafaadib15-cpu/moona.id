@@ -23,6 +23,7 @@ export type Database = {
           next_label: string | null
           phase_label: string | null
           plan_label: string | null
+          plan_stage: string
           role_title: string | null
           status: Database["public"]["Enums"]["engagement_status"]
           updated_at: string
@@ -35,6 +36,7 @@ export type Database = {
           next_label?: string | null
           phase_label?: string | null
           plan_label?: string | null
+          plan_stage?: string
           role_title?: string | null
           status?: Database["public"]["Enums"]["engagement_status"]
           updated_at?: string
@@ -47,6 +49,7 @@ export type Database = {
           next_label?: string | null
           phase_label?: string | null
           plan_label?: string | null
+          plan_stage?: string
           role_title?: string | null
           status?: Database["public"]["Enums"]["engagement_status"]
           updated_at?: string
