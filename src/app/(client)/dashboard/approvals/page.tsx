@@ -1,81 +1,51 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import {
-  ApprovalsView,
-  type ApprovalGroup,
-  type ApprovalPost,
-} from "@/components/portal/ApprovalsView";
+import { PlanStages } from "@/components/portal/PlanStages";
+import { TallyEmbed } from "@/components/portal/TallyEmbed";
+import { TALLY_PLAN_FORM_ID, normalizePlanStage } from "@/lib/tally";
 
-export default async function ApprovalsPage() {
+export default async function PlanApprovalPage() {
   const supabase = await createClient();
+  const { data: account } = await supabase
+    .from("client_accounts")
+    .select("name, plan_stage")
+    .maybeSingle();
 
-  const [{ data: account }, { data: plan }, { data: groups }, { data: posts }, { data: comments }] =
-    await Promise.all([
-      supabase.from("client_accounts").select("name").maybeSingle(),
-      supabase
-        .from("content_plans")
-        .select("id, title, period_label")
-        .order("id")
-        .limit(1)
-        .maybeSingle(),
-      supabase.from("content_groups").select("id, name, kind, sort_order").order("sort_order"),
-      supabase
-        .from("posts")
-        .select(
-          "id, group_id, seq, day_label, post_date, subject, why_now, content_form, hook, body, tags, part_label, decision",
-        )
-        .order("seq"),
-      supabase
-        .from("post_comments")
-        .select("post_id, body, created_at")
-        .order("created_at", { ascending: false }),
-    ]);
-
-  if (!plan || !groups || groups.length === 0) {
-    return (
-      <div className="view">
-        <div className="page-kicker">الموافقة على المحتوى</div>
-        <h1 className="page-title">لا توجد منشورات بعد</h1>
-        <p className="page-sub">سيظهر تقويم المحتوى هنا فور جهوزه للمراجعة.</p>
-      </div>
-    );
-  }
-
-  // Latest comment per post (comments are sorted newest-first).
-  const latestComment: Record<number, string> = {};
-  for (const c of comments ?? []) {
-    if (!(c.post_id in latestComment)) latestComment[c.post_id] = c.body;
-  }
-
-  const toPost = (p: NonNullable<typeof posts>[number]): ApprovalPost => ({
-    id: p.id,
-    seq: p.seq,
-    dayLabel: p.day_label ?? "",
-    postDate: p.post_date ?? "",
-    subject: p.subject,
-    whyNow: p.why_now ?? "",
-    contentForm: p.content_form ?? "",
-    hook: p.hook,
-    body: Array.isArray(p.body) ? (p.body as unknown[]).map(String) : [],
-    tags: p.tags ?? "",
-    partLabel: p.part_label,
-    decision: p.decision,
-    comment: latestComment[p.id] ?? "",
-  });
-
-  const viewGroups: ApprovalGroup[] = groups.map((g) => ({
-    id: g.id,
-    name: g.name,
-    kind: g.kind,
-    posts: (posts ?? []).filter((p) => p.group_id === g.id).map(toPost),
-  }));
+  const stage = normalizePlanStage(account?.plan_stage);
 
   return (
-    <ApprovalsView
-      planTitle={plan.title}
-      planSub="راجع كل منشور، واعتمده أو اطلب تعديلاً. ملاحظاتك تصل الفريق مباشرة."
-      clientName={account?.name ?? ""}
-      groups={viewGroups}
-      total={(posts ?? []).length}
-    />
+    <div className="view">
+      <div className="page-kicker">الخطة</div>
+      <h1 className="page-title">خطة المحتوى</h1>
+      <p className="page-sub">
+        {stage === "plan"
+          ? "راجع كل منشور، واعتمده أو اطلب تعديلاً. قراراتك وملاحظاتك تصل الفريق مباشرة."
+          : stage === "schedule"
+            ? "خطتك معتمدة. فريق مُنى يجهز جدولة النشر الآن."
+            : "اكتملت الجدولة. تابع مخرجاتك من صفحة المخرجات."}
+      </p>
+
+      <PlanStages stage={stage} />
+
+      {stage === "plan" ? (
+        <TallyEmbed formId={TALLY_PLAN_FORM_ID} title="نموذج مراجعة واعتماد خطة المحتوى" />
+      ) : stage === "schedule" ? (
+        <div className="panel">
+          <h3>الخطة معتمدة</h3>
+          <p className="page-sub page-sub--tight">
+            وصلنا اعتمادك وملاحظاتك كاملة. نعمل الآن على جدولة المحتوى، وستنتقل المتابعة إلى
+            صفحة المخرجات فور الجهوز.
+          </p>
+        </div>
+      ) : (
+        <div className="panel">
+          <h3>المتابعة في المخرجات</h3>
+          <p className="page-sub">كل ما يتم إنتاجه وتسليمه تجده في صفحة المخرجات.</p>
+          <Link className="dview" href="/dashboard/deliverables">
+            الانتقال إلى المخرجات
+          </Link>
+        </div>
+      )}
+    </div>
   );
 }

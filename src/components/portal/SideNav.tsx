@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 const items = [
   { href: "/dashboard", label: "لوحة التحكم" },
-  { href: "/dashboard/approvals", label: "الموافقة على المحتوى" },
+  { href: "/dashboard/approvals", label: "الخطة" },
   { href: "/dashboard/deliverables", label: "المخرجات" },
   { href: "/dashboard/profile", label: "الملف الشخصي" },
 ];

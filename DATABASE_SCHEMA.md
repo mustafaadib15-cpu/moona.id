@@ -35,6 +35,8 @@ CREATE TABLE public.client_accounts (
   phase_label   TEXT,                          -- current engagement phase
   next_label    TEXT,                          -- next milestone, e.g. اجتماع المراجعة · الإثنين
   status        engagement_status NOT NULL DEFAULT 'active',
+  plan_stage    TEXT NOT NULL DEFAULT 'plan'
+                CHECK (plan_stage IN ('plan','schedule','deliverables')), -- migration 0002: plan approval flow (plan -> schedule -> deliverables)
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );

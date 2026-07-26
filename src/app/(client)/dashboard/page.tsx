@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { PLAN_STAGES, normalizePlanStage } from "@/lib/tally";
 
 const DELIVERABLE_LABEL: Record<string, string> = {
   delivered: "تم التسليم",
@@ -6,44 +7,37 @@ const DELIVERABLE_LABEL: Record<string, string> = {
   upcoming: "قادم",
 };
 
-// Client overview. Counters, plan label, phase, next milestone, and recent
+const STAGE_ACTIVITY: Record<string, string> = {
+  plan: "خطة المحتوى جاهزة لمراجعتك واعتمادك",
+  schedule: "خطتك معتمدة وجاري جدولة النشر",
+  deliverables: "الجدولة مكتملة والمتابعة في المخرجات",
+};
+
+// Client overview. Plan stage, plan label, next milestone, and recent
 // activity — all read from the DB (RLS scopes everything to this client).
 export default async function OverviewPage() {
   const supabase = await createClient();
 
-  const [{ data: account }, { data: plan }, { data: posts }, { data: deliverables }] =
-    await Promise.all([
-      supabase
-        .from("client_accounts")
-        .select("name, plan_label, phase_label, next_label")
-        .maybeSingle(),
-      supabase.from("content_plans").select("title, period_label").maybeSingle(),
-      supabase.from("posts").select("decision"),
-      supabase
-        .from("deliverables")
-        .select("title, date_label, status")
-        .order("sort_order")
-        .limit(3),
-    ]);
+  const [{ data: account }, { data: deliverables }] = await Promise.all([
+    supabase
+      .from("client_accounts")
+      .select("name, plan_label, phase_label, next_label, plan_stage")
+      .maybeSingle(),
+    supabase
+      .from("deliverables")
+      .select("title, date_label, status")
+      .order("sort_order")
+      .limit(3),
+  ]);
 
-  let pending = 0;
-  let approved = 0;
-  let revision = 0;
-  for (const p of posts ?? []) {
-    if (p.decision === "approved") approved += 1;
-    else if (p.decision === "revision") revision += 1;
-    else pending += 1;
-  }
+  const stage = normalizePlanStage(account?.plan_stage);
+  const stageIndex = PLAN_STAGES.findIndex((s) => s.key === stage);
+  const stageInfo = PLAN_STAGES[stageIndex];
 
   const firstName = (account?.name ?? "").split(" ")[0];
 
   const activity: { body: string; time: string }[] = [];
-  if (plan) {
-    activity.push({
-      body: `${plan.title} جاهز لمراجعتك`,
-      time: plan.period_label ?? "",
-    });
-  }
+  activity.push({ body: STAGE_ACTIVITY[stage], time: "من صفحة الخطة" });
   for (const d of deliverables ?? []) {
     activity.push({
       body: d.title,
@@ -65,19 +59,14 @@ export default async function OverviewPage() {
 
       <div className="stat-grid">
         <div className="stat">
-          <div className="lab">بانتظار مراجعتك</div>
-          <div className="val">{pending}</div>
-          <div className="sub">منشور يحتاج قرارك</div>
+          <div className="lab">مرحلة الخطة</div>
+          <div className="vtext">{stageInfo.label}</div>
+          <div className="sub">{stageInfo.sub}</div>
         </div>
         <div className="stat">
-          <div className="lab">معتمدة</div>
-          <div className="val">{approved}</div>
-          <div className="sub">جاهزة للنشر</div>
-        </div>
-        <div className="stat">
-          <div className="lab">تحتاج تعديل</div>
-          <div className="val">{revision}</div>
-          <div className="sub">بانتظار التعديل</div>
+          <div className="lab">التقدم</div>
+          <div className="val">{stageIndex + 1}/3</div>
+          <div className="sub">الخطة ثم الجدولة ثم التسليمات</div>
         </div>
         <div className="stat">
           <div className="lab">القادم</div>
